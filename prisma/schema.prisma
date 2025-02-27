@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYER
+  GERENTE
+  ADMIN
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String
+  password   String
+  created_at DateTime  @default(now())
+  verified   Boolean   @default(false)
+  Section    Section[]
+}
+
+model Collaborator {
+  id        String  @id @default(uuid())
+  name      String
+  role      Role
+  sectionId String
+  section   Section @relation(fields: [sectionId], references: [id])
+}
+
+model Section {
+  id            String         @id @default(uuid())
+  name          String
+  adminId       String
+  admin         User           @relation(fields: [adminId], references: [id])
+  collaborators Collaborator[]
+}
