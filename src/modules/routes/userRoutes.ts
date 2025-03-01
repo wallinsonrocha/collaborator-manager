@@ -5,8 +5,8 @@ import { UserCreate } from "../interfaces/user.interface";
 export async function userRoutes(fastify: FastifyInstance){
     const userUseCase = new UserUseCase();
     
-    fastify.post<{Body: UserCreate}>("/", (req, res)=>{
-        const {name, email, password} = req.body;
+    fastify.post<{Body: UserCreate}>("/", (request, reply)=>{
+        const {name, email, password} = request.body;
         try{
             const data = userUseCase.create({
                 name,
@@ -14,18 +14,23 @@ export async function userRoutes(fastify: FastifyInstance){
                 password
             });
             
-            return res.send(data);
+            return reply.send(data);
         } catch(error) {
-            res.send(error);
+            reply.send(error);
         }
     });
 
-    fastify.get('/', (req, res)=>{
+    fastify.get('/', async (request, reply)=>{      
         try{
-            const data = userUseCase.list();            
-            return res.send(data);
+            const data = await userUseCase.list();
+
+            if (!data || data.length == 0){                
+                return reply.send({message: 'Não tem usuários cadastrados'});
+            } 
+
+            return reply.send(data);
         } catch(error){
-            res.send(error);
+            reply.code(500).send(error);
         }
     })
 }

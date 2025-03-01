@@ -21,10 +21,13 @@
   "dependencies": {
     "-": "^0.0.1",
     "@prisma/client": "^6.4.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/supertest": "^6.0.2",
     "bcryptjs": "^3.0.2",
     "D": "^1.0.0",
+    "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
     "supertest": "^7.0.0"
   }
 }

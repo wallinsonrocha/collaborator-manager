@@ -23,12 +23,12 @@ it('should return a list of users', async () => {
     expect(user).toEqual(userList);
 });
 
-// it('should return status code 200', async () => {    
-//     prisma.user.findMany.mockResolvedValue(userList);
-//     await app.ready();
+it('should return status code 200', async () => {    
+    prisma.user.findMany.mockResolvedValue(userList);
+    await app.ready();
 
-//     const response = await request(app.server).get('/users');
+    const response = await request(app.server).get('/users');
 
-//     console.log(response.body)
-//     expect(response.status).toBe(200);
-// });
+    console.log(response.body)
+    expect(response.status).toBe(200);
+});
